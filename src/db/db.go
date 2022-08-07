@@ -58,14 +58,14 @@ func createSchema(db *pg.DB) error {
   return nil
 }
 
-func Create(db *pg.DB, text string, done bool) *model.Todo {
+func Create(db *pg.DB, text string, done bool, id string) *model.Todo {
   err := createSchema(db)
   if err != nil {
     panic(err)
   }
 
   todo := &model.Todo{
-    ID: "1",
+    ID: fmt.Sprint(id),
     Text: text,
     Done: done,
   }
@@ -81,7 +81,7 @@ func Create(db *pg.DB, text string, done bool) *model.Todo {
 
 
 
-func GetByID(db *pg.DB, id string) model.Todo {
+func GetByID(db *pg.DB, id string) *model.Todo {
 
   if _, err := strconv.Atoi(id); err != nil {
     fmt.Println("id not a number"+ id)
@@ -97,11 +97,11 @@ func GetByID(db *pg.DB, id string) model.Todo {
 
   fmt.Println(todo.Text)
 
-  return *todo
+  return todo
 }
 
-func GetAll(db *pg.DB) []model.Todo {
-  var todos []model.Todo
+func GetAll(db *pg.DB) []*model.Todo {
+  var todos []*model.Todo
   err := db.Model(&todos).Select()
   if err != nil {
     panic(err)

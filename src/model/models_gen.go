@@ -10,6 +10,7 @@ import (
 
 // can only be used if the user is logged in
 type NewTodo struct {
+	// The Todo Text
 	Text string `json:"text"`
 	// Are you done?
 	Done *bool `json:"done"`

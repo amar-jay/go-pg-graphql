@@ -20,13 +20,14 @@ type Query {
 
 "can only be used if the user is logged in"
 input NewTodo {
+  "The Todo Text"
   text: String!
   "Are you done?"
   done: Boolean
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  createTodo(id: ID!, input: NewTodo!): Todo!
   updateTodo(id: ID!, changes: Map!): Todo!
 }
 
