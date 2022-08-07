@@ -1,0 +1,42 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Todo {
+  id: ID!
+  text: String!
+  done: Boolean! @hasRole(role: OWNER)
+}
+
+type Query {
+  todos: [Todo!]!
+  todo(id: ID!): Todo
+  lastTodo: Todo
+}
+
+"can only be used if the user is logged in"
+input NewTodo {
+  text: String!
+  "Are you done?"
+  done: Boolean
+}
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+  updateTodo(id: ID!, changes: Map!): Todo!
+}
+
+scalar Map
+
+"Prevents access to a field if the user doesnt have the matching role"
+directive @hasRole(role: Role!) on FIELD_DEFINITION
+directive @user(id: ID!) on MUTATION | QUERY | FIELD
+
+enum Role {
+  ADMIN
+  OWNER
+}
